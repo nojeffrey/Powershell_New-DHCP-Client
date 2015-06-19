@@ -1,4 +1,4 @@
-#v1.0
+#v1.01
 #Written by nojeffrey(https://github.com/nojeffrey)
 #Email if new DHCP client is found on Windows DHCP Server, tested on 2008r2
 #Modify these 4 variables to suit:
@@ -12,12 +12,12 @@ $to = "you@yourcompany.com"
 #Test if C:\DHCP directory exists, if not; create the dir and run for the first time, save output to C:\DHCP\DHCPList.txt
 if((Test-Path C:\DHCP) -eq 0){
     New-Item -ItemType Directory -Path C:\DHCP
-    Get-DhcpServerv4Scope -ComputerName $DHCPServer | Get-DhcpServerv4Lease -ComputerName $DHCPServer | Select-Object -ExpandProperty Hostname | Out-File "C:\DHCP\DHCPList.txt"
+    Get-DhcpServerv4Scope -ComputerName $DHCPServer | Get-DhcpServerv4Lease -ComputerName $DHCPServer | Select-Object -ExpandProperty Hostname | Sort-Object -Unique | Out-File "C:\DHCP\DHCPList.txt"
     }
 
 
-$old = Get-Content "C:\DHCP\DHCPList.txt" 
-$new = Get-DhcpServerv4Scope -ComputerName $DHCPServer | Get-DhcpServerv4Lease -ComputerName $DHCPServer | Select-Object -ExpandProperty Hostname 
+$old = Get-Content "C:\DHCP\DHCPList.txt" | Sort-Object -Unique
+$new = Get-DhcpServerv4Scope -ComputerName $DHCPServer | Get-DhcpServerv4Lease -ComputerName $DHCPServer | Select-Object -ExpandProperty Hostname | Sort-Object -Unique
 
 #Compare difference
 $newDHCPtoWrite = diff -ReferenceObject $old -DifferenceObject $new
