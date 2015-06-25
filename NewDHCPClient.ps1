@@ -22,7 +22,7 @@ if((Test-Path C:\DHCP\DHCHList.txt) -eq 0){
 
 
 $old = Get-Content "C:\DHCP\DHCPList.txt" | Sort-Object -Unique
-$new = Get-DhcpServerv4Scope -ComputerName newdc01 | Get-DhcpServerv4Lease -ComputerName $DHCPServer | Select-Object -ExpandProperty Hostname | Sort-Object -Unique
+$new = Get-DhcpServerv4Scope -ComputerName $DHCPServer | Get-DhcpServerv4Lease -ComputerName $DHCPServer | Select-Object -ExpandProperty Hostname | Sort-Object -Unique
 
 #Compare difference
 $newDHCPtoWrite = diff -ReferenceObject $old -DifferenceObject $new
