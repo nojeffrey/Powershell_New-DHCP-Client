@@ -16,7 +16,7 @@ if((Test-Path C:\DHCP) -eq 0){
 }
 
 #Test if DHCPList.txt exists, if not run for first time(needed if only the directory exists, and not the file)
-if((Test-Path C:\DHCP\DHCHList.txt) -eq 0){
+if((Test-Path C:\DHCP\DHCPList.txt) -eq 0){
     Get-DhcpServerv4Scope -ComputerName $DHCPServer | Get-DhcpServerv4Lease -ComputerName $DHCPServer | Select-Object -ExpandProperty Hostname |Sort-Object -Unique | Out-File "C:\DHCP\DHCPList.txt"
 }
 
